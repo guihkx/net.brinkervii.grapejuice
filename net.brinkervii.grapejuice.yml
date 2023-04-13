@@ -197,30 +197,20 @@ modules:
         --set-key=Exec --set-value='grapejuice gui'
       # Edit Roblox App shortcut
       - desktop-file-edit /app/share/applications/${FLATPAK_ID}.robloxapp.desktop
-        --set-icon=${FLATPAK_ID}.robloxplayer --set-key=Exec --set-value='grapejuice
+        --set-key=Exec --set-value='grapejuice
         app'
       # Edit Roblox Player shortcut
       - desktop-file-edit /app/share/applications/${FLATPAK_ID}.robloxplayer.desktop
-        --set-icon=${FLATPAK_ID}.robloxplayer --set-key=Exec --set-value='grapejuice
+       --set-key=Exec --set-value='grapejuice
         player %u'
       # Edit Roblox Studio shortcut
       - desktop-file-edit /app/share/applications/${FLATPAK_ID}.robloxstudio.desktop
-        --set-icon=${FLATPAK_ID}.robloxstudio --set-key=Exec --set-value='grapejuice
+        --set-key=Exec --set-value='grapejuice
         studio %u'
       # Edit Roblox Studio authentication shortcut
       - desktop-file-edit /app/share/applications/${FLATPAK_ID}.robloxstudioauth.desktop
-        --set-icon=${FLATPAK_ID}.robloxstudio --set-key=Exec --set-value='grapejuice
+        --set-key=Exec --set-value='grapejuice
         studio-auth %u'
-      # Rename Grapejuice icons
-      - |
-        for res in 16x16 24x24 32x32 48x48 64x64 128x128 256x256
-        do
-          ln -rsv /app/share/icons/hicolor/${res}/apps/grapejuice.png -T /app/share/icons/hicolor/${res}/apps/${FLATPAK_ID}.png
-          ln -rsv /app/share/icons/hicolor/${res}/apps/grapejuice-roblox-player.png -T /app/share/icons/hicolor/${res}/apps/${FLATPAK_ID}.robloxplayer.png
-          ln -rsv /app/share/icons/hicolor/${res}/apps/grapejuice-roblox-studio.png -T /app/share/icons/hicolor/${res}/apps/${FLATPAK_ID}.robloxstudio.png
-        done
-      # Scalable/vector icon
-      - ln -rsv /app/share/icons/hicolor/scalable/apps/grapejuice.svg -T /app/share/icons/hicolor/scalable/apps/${FLATPAK_ID}.png
     sources:
       - type: git
         url: https://gitlab.com/brinkervii/grapejuice.git
