@@ -85,19 +85,22 @@ modules:
       # NOTE: Users might have manually modified their PATH variable, so for backwards compatibility,
       #       please always install Wine to /app/patched_wine to avoid breaking the app unnecessarily.
       - mkdir -p /app/patched_wine
-      - tar -C /app/patched_wine --strip-components 1 -xvf wine.tar.xz
+      - tar -C /app/patched_wine -I unzstd --strip-components 1 -xvf wine.tar.zst
       - stat /app/patched_wine/bin/wine
     sources:
       - type: file
-        dest-filename: wine.tar.xz
-        url: https://github.com/Kron4ek/Wine-Builds/releases/download/8.15/wine-8.15-staging-amd64.tar.xz
-        sha256: 0cc40bb91591f01ac1ed0ac410e7c3112f348ce3951f4a49be84c5501b44e012
+        dest-filename: wine.tar.zst
+        url: https://gitlab.com/brinkervii/wine-builds/-/raw/main/debuntu-wine-tkg-staging-fsync-git-8.15.r0.g7f7f0fc9.tar.zst
+        sha256: 982d6fc47749f72e85891a8d85a8a4bb07554a16cd6c86b8fac4a1530ac7d152
         x-checker-data:
           type: json
-          url: https://api.github.com/repos/Kron4ek/Wine-Builds/releases
-          version-query: first(.[] | select(.tag_name | test("^[0-9]"))).tag_name
-          url-query: .[] | select(.tag_name == "" + $version + "") | .assets[] | select(.name
-            == "wine-" + $version + "-staging-amd64.tar.xz").browser_download_url
+          url: https://gitlab.com/brinkervii/wine-builds/-/refs/main/logs_tree/?format=json&offset=0
+          version-query: last(.[] | select(.file_name | startswith("debuntu-wine-tkg-staging-fsync-git")))
+            | .file_name | capture("-git-(?<version>(.+?))\\.tar\\.zst$").version
+          url-query: last(.[] | select(.file_name | startswith("debuntu-wine-tkg-staging-fsync-git")))
+            | @uri "https://gitlab.com/brinkervii/wine-builds/-/raw/main/\(.file_name)"
+    cleanup:
+      - /app/patched_wine/include
 
   - name: glxinfo
     buildsystem: meson
